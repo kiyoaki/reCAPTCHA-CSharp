@@ -1,0 +1,31 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "reCAPTCHA v3 Example website";
+}
+
+<div class="text-center">
+    <h1 class="display-4">reCAPTCHA v3 Example</h1>
+
+    <div style="margin-top: 50px">
+        <form method="post">
+            <input asp-for="Input.Token" id="response-token" style="width:530px" />
+            <button type="submit">送信</button>
+        </form>
+
+        <div style="margin-top: 50px">
+            <textarea asp-for="Input.ApiResponse" cols="80" rows="20"></textarea>
+        </div>
+    </div>
+</div>
+@{
+    var key = Environment.GetEnvironmentVariable("RECAPTCHA_KEY");
+}
+<script src='@string.Format("https://www.google.com/recaptcha/api.js?render={0}", key)'></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('@key', { action: 'example' }).then(function (token) {
+            document.getElementById("response-token").value = token;
+        });
+    });
+</script>
