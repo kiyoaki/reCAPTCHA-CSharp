@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Threading.Tasks;
 
 namespace ReCaptcha.ExampleWebsite.Pages
 {
@@ -34,7 +32,7 @@ namespace ReCaptcha.ExampleWebsite.Pages
 
         public async Task<IActionResult> OnPost()
         {
-            var service = new ReCaptchaService(Environment.GetEnvironmentVariable("RECAPTCHA_KEY"), Environment.GetEnvironmentVariable("RECAPTCHA_SECRET"));
+            var service = new ReCaptchaService(Environment.GetEnvironmentVariable("RECAPTCHA_SECRET"));
             var response = await service.VerifyAsync(Input.Token, httpContext.Connection?.RemoteIpAddress?.ToString());
             Input.ApiResponse = Utf8Json.JsonSerializer.ToJsonString(response);
             return Page();

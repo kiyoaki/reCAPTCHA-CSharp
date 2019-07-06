@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Utf8Json;
@@ -10,10 +9,7 @@ namespace ReCaptcha
 {
     public class ReCaptchaService
     {
-        private const string ResponseHeaderKey = "g-recaptcha-response";
         private static readonly Uri BaseUri = new Uri("https://www.google.com/recaptcha/api/siteverify");
-        private static readonly MediaTypeHeaderValue MediaType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-        private readonly string key;
         private readonly string secret;
 
         public static HttpClient HttpClient { get; set; } = new HttpClient
@@ -22,9 +18,8 @@ namespace ReCaptcha
             Timeout = TimeSpan.FromSeconds(60)
         };
 
-        public ReCaptchaService(string key, string secret)
+        public ReCaptchaService(string secret)
         {
-            this.key = key;
             this.secret = secret;
         }
 
