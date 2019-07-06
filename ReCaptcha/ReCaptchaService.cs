@@ -27,13 +27,18 @@ namespace ReCaptcha
         {
             if (string.IsNullOrEmpty(responseToken)) throw new ArgumentException(nameof(responseToken));
 
-            var form = new FormUrlEncodedContent(new Dictionary<string, string>
+            var formDictionary = new Dictionary<string, string>
             {
                 { "response", responseToken },
-                { "secret", secret },
-                { "remoteip", remoteIp },
-            });
+                { "secret", secret }
+            };
 
+            if (!string.IsNullOrEmpty(remoteIp))
+            {
+                formDictionary["remoteip"] = remoteIp;
+            }
+
+            var form = new FormUrlEncodedContent(formDictionary);
             var response = await HttpClient.PostAsync(BaseUri, form, cancellationToken).ConfigureAwait(false);
             try
             {
